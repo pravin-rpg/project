@@ -78,8 +78,8 @@ jobs:
           sudo systemctl enable docker
           sudo systemctl start docker
           # Start the full stack!
-          sudo docker compose up -d --build  
-    - name: Debug secrets
-  run: | 
-    echo "HOST=${{ secrets.EC2_HOST }}"
-    echo "USER=${{ secrets.EC2_USERNAME }}"        
+          sudo docker compose up -d --build      
+    - name: Check secrets
+      run: |
+          echo "HOST=${{ secrets.EC2_HOST }}"
+          echo "USER=${{ secrets.EC2_USERNAME }}"
