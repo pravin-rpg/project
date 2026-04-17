@@ -73,7 +73,6 @@ jobs:
             git pull origin main
           fi
           # Ensure docker and docker-compose are running
-          sudo apt-get install -y docker-compose-plugin
           sudo apt-get update -y
           sudo apt-get install -y docker-compose-plugin docker.io
           sudo systemctl enable docker
