@@ -71,11 +71,24 @@ jobs:
           cd sde-app
           git fetch origin main
           git reset --hard origin/main
-          # Ensure docker and docker-compose are running
+          
+          # Fix for "containerd.io : Conflicts: containerd" and crippled metadata.db
+          sudo apt-get remove -y containerd docker.io runc || true
+          sudo apt-get purge -y containerd docker.io runc || true
+          sudo apt-get autoremove -y
           sudo apt-get update -y
-          sudo apt-get install -y docker-compose-plugin docker.io
-          sudo systemctl enable docker
+          sudo apt-get install -y docker.io docker-compose-plugin
+          
+          # Force restart containerd and docker to fix "metadata.db: no such file"
+          sudo systemctl stop docker || true
+          sudo systemctl stop containerd || true
+          sudo rm -rf /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/metadata.db || true
+          sudo systemctl start containerd
           sudo systemctl start docker
-          # Build and start the latest version
+          
+          # Set permissions if needed
+          sudo usermod -aG docker $USER || true
+          
+          # Start the stack
           sudo docker compose down || true
           sudo docker compose up -d --build
