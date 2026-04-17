@@ -74,7 +74,6 @@ jobs:
           fi
           # Ensure docker and docker-compose are running
           sudo apt-get install -y docker-compose-plugin
-          sudo apt-get remove -y docker docker-engine docker.io containerd runc || true
           sudo apt-get update -y
           sudo apt-get install -y docker-compose-plugin docker.io
           sudo systemctl enable docker
