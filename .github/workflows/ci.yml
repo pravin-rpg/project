@@ -67,11 +67,15 @@ jobs:
         script: |
           if [ ! -d "sde-app" ]; then
             git clone https://github.com/${{ github.repository }} sde-app
-            cd sde-app
-          else
-            cd sde-app
-            git pull origin main
           fi
           cd sde-app
-          docker compose down || true
-          docker compose up -d --build   
+          git fetch origin main
+          git reset --hard origin/main
+          # Ensure docker and docker-compose are running
+          sudo apt-get update -y
+          sudo apt-get install -y docker-compose-plugin docker.io
+          sudo systemctl enable docker
+          sudo systemctl start docker
+          # Build and start the latest version
+          sudo docker compose down || true
+          sudo docker compose up -d --build
