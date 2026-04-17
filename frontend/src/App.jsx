@@ -37,9 +37,9 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
     
-    let endpoint = 'http://localhost:8081/api/upload';
+    let endpoint = '/api/upload';
     if (mediaType === 'video' || mediaType === 'audio') {
-      endpoint = 'http://localhost:8081/api/upload/media';
+      endpoint = '/api/upload/media';
     }
 
     try {
@@ -62,7 +62,7 @@ function App() {
 
   const fetchSummary = async (filename) => {
     try {
-      const res = await fetch(`http://localhost:8081/api/summary?filename=${encodeURIComponent(filename)}`, {
+      const res = await fetch(`/api/summary?filename=${encodeURIComponent(filename)}`, {
         method: 'POST'
       });
       const data = await res.json();
@@ -81,7 +81,7 @@ function App() {
     setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     
     try {
-      const res = await fetch('http://localhost:8081/api/chat', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: userMsg })
