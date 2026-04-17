@@ -72,14 +72,6 @@ jobs:
             cd sde-app
             git pull origin main
           fi
-          # Ensure docker and docker-compose are running
-          sudo apt-get update -y
-          sudo apt-get install -y docker-compose-plugin docker.io
-          sudo systemctl enable docker
-          sudo systemctl start docker
-          # Start the full stack!
-          sudo docker compose up -d --build      
-    - name: Check secrets
-      run: |
-          echo "HOST=${{ secrets.EC2_HOST }}"
-          echo "USER=${{ secrets.EC2_USERNAME }}"
+          cd sde-app
+          docker compose down || true
+          docker compose up -d --build   
